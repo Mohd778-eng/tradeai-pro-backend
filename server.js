@@ -1,11 +1,21 @@
-- app.listen(PORT, () => {
--   console.log(`✅ TradeAI Backend running on port ${PORT}`);
--   console.log(`🌐 Webhook: ${process.env.TELEGRAM_WEBHOOK_URL || 'Not set'}`);
--   console.log(`💼 Owner wallet: ${OWNER_CONFIG.walletAddress}`);
-- });
+minWithdrawalAmount) return;
+    await Withdrawal.create({
+      ownerWallet: OWNER_CONFIG.walletAddress,
+      totalAmount: totalAmount,
+      status: 'completed',
+      txHash: 'TX_' + Date.now(),
+      requestedAt: new Date(),
+      completedAt: new Date()
+    });
+    await Commission.updateMany({ status: 'pending' }, { status: 'distributed', distributedAt: new Date() });
+  } catch (error) {
+    console.error('Withdrawal error:', error);
+  }
+});
 
-+ console.log('✅ TradeAI Backend initialized');
-+ console.log(`💼 Owner wallet: ${OWNER_CONFIG.walletAddress}`);
-+ 
-+ // Export for Vercel Serverless Function
-+ module.exports = app;
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/tradeai', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}).then(() => console.log('MongoDB Connected')).catch(err => console.error('MongoDB Error:', err));
+
+module.exports = app;
