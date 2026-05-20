@@ -1,21 +1,16 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "server.js",
-      "use": "@vercel/node",
-      "config": {
-        "maxLambdaSize": "50mb"
-      }
+  "buildCommand": "npm install",
+  "outputDirectory": "./",
+  "functions": {
+    "server.js": {
+      "runtime": "@vercel/node@2.15.0"
     }
-  ],
+  },
   "routes": [
     {
       "src": "/(.*)",
       "dest": "server.js"
     }
-  ],
-  "env": {
-    "NODE_ENV": "production"
-  }
+  ]
 }
