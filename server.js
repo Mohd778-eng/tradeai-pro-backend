@@ -37,6 +37,7 @@ const userSchema = new mongoose.Schema({
   updatedAt: { type: Date, default: Date.now }
 });
 
+// Commission Schema
 const commissionSchema = new mongoose.Schema({
   userId: mongoose.Schema.Types.ObjectId,
   profitGenerated: Number,
@@ -47,6 +48,7 @@ const commissionSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now }
 });
 
+// Withdrawal Schema
 const withdrawalSchema = new mongoose.Schema({
   ownerWallet: String,
   totalAmount: Number,
@@ -56,6 +58,7 @@ const withdrawalSchema = new mongoose.Schema({
   completedAt: Date
 });
 
+// Models
 const User = mongoose.model('User', userSchema);
 const Commission = mongoose.model('Commission', commissionSchema);
 const Withdrawal = mongoose.model('Withdrawal', withdrawalSchema);
@@ -65,4 +68,14 @@ const Withdrawal = mongoose.model('Withdrawal', withdrawalSchema);
 // ════════════════════════════════════════════════════════════════
 
 const OWNER_CONFIG = {
-  walletAddress: process.env.OWNER_WALLET ||
+  walletAddress: process.env.OWNER_WALLET || '0x7F3a8B2c4d9E1f6A3b7C5e2D9f0A1B8c4E',
+  network: process.env.OWNER_NETWORK || 'BEP20',
+  minWithdrawalAmount: 100,
+  
+  commissionRates: {
+    daily: 0.15,
+    weekly: 0.20,
+    monthly: 0.25
+  },
+  
+  profitR
